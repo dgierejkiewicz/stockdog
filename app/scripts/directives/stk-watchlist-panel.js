@@ -10,16 +10,16 @@ angular.module('stockdogApp')
   // [1] Register directive, inject dependencies
   .directive('stkWatchlistPanel', function ($location, $modal, WatchlistService) {
     return {
-      template: '<div></div>',
+      templateUrl: 'views/templates/watchlist-panel.html',
       restrict: 'E',
       scope: {},
       link: function postLink($scope) {
-        element.text('this is the stkWatchlistPanel directive');
+
         // [2] Init varialbles
         $scope.watchlist = {};
         var addListModal = $modal({
           scope: $scope,
-          template: 'views/templates/addlist-modal.html',
+          templateUrl: 'views/templates/addlist-modal.html',
           show: false
         });
 
@@ -38,6 +38,11 @@ angular.module('stockdogApp')
           $scope.watchlist = {};
         }
 
+        // [6] Delete desired list and redirect to home
+        $scope.deleteList = function (list) {
+          WatchlistService.remove(list);
+          $location.path('/');
+        }
       }
     };
   });
