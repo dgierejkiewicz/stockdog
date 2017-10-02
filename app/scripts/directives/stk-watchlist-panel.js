@@ -8,7 +8,7 @@
  */
 angular.module('stockdogApp')
   // [1] Register directive, inject dependencies
-  .directive('stkWatchlistPanel', function ($location, $modal, WatchlistService) {
+  .directive('stkWatchlistPanel', function ($location, $modal, $routeParams, WatchlistService) {
     return {
       templateUrl: 'views/templates/watchlist-panel.html',
       restrict: 'E',
@@ -36,12 +36,17 @@ angular.module('stockdogApp')
           WatchlistService.save($scope.watchlist);
           addListModal.hide();
           $scope.watchlist = {};
-        }
+        };
 
         // [6] Delete desired list and redirect to home
         $scope.deleteList = function (list) {
           WatchlistService.remove(list);
           $location.path('/');
+        };
+
+        $scope.currentList = $routeParams.listId;
+        $scope.gotoList = function (listId) {
+          $location.path('watchlist/' + listId);
         }
       }
     };
